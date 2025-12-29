@@ -1,0 +1,33 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = {
+    "time": [1,2,3,4,5,6,7,8,9,10],
+    "aqi": [60, 65, 70, 75, 80, 180, 190, 175, 85, 70]
+}
+
+df = pd.DataFrame(data)
+
+AQI_THRESHOLD = 150
+
+df["Unsafe"] = df["aqi"] > AQI_THRESHOLD
+
+print("\nSMART AIR QUALITY MONITORING REPORT\n")
+
+unsafe_found = False
+for index, row in df.iterrows():
+    if row["Unsafe"]:
+        unsafe_found = True
+        print(f"Unsafe Air Quality at Time {row['time']} AQI {row['aqi']}")
+
+if not unsafe_found:
+    print("Air quality is within safe limits")
+
+plt.figure()
+plt.plot(df["time"], df["aqi"], marker='o')
+plt.axhline(y=AQI_THRESHOLD)
+plt.xlabel("Time")
+plt.ylabel("Air Quality Index")
+plt.title("Smart Air Quality Monitoring System")
+plt.grid(True)
+plt.show()
